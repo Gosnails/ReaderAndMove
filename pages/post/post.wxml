@@ -1,23 +1,21 @@
 <!--pages/post/post.wxml-->
+<import src="post-item/post-item-template.wxml" />
+
 <view>
   <swiper indicator-dots='true' autoplay='true'>
-    <swiper-item><image src='/images/wx.png'></image></swiper-item>
-    <swiper-item><image src='/images/vr.png'></image></swiper-item>
-    <swiper-item><image src='/images/iqiyi.png'></image></swiper-item>
+    <swiper-item>
+      <image src='/images/wx.png'></image>
+    </swiper-item>
+    <swiper-item>
+      <image src='/images/vr.png'></image>
+    </swiper-item>
+    <swiper-item>
+      <image src='/images/iqiyi.png'></image>
+    </swiper-item>
   </swiper>
-  <view class='post-container'>
-    <view class='post-author-date'>
-      <image class='post-author' src='/images/avatar/1.png'></image>
-      <text class='post-date'>Nov 25  2016</text>
+  <block wx:for="{{postList}}" wx:for-item="item" wx:for-index="idx">
+    <view catchtap='onPostTap' data-postId="{{item.postId}}">
+      <template is="postItem" data="{{...item}}" />
     </view>
-    <text class='post-title'>正是虾肥蟹荘时</text>
-    <image class='post-image' src='/images/post/crab.png'></image>
-    <text class='post-content'>111111111111111111111111111111</text>
-    <view class='post-like'>
-      <image class='post-like-image' src='../../images/icon/chat.png'></image>
-      <text class='post-like-font'>92</text>
-      <image class='post-like-image' src='../../images/icon/view.png'></image>
-      <text class='post-like-font'>65</text>
-    </view>
-  </view>
+  </block>
 </view>
