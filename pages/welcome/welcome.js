@@ -9,17 +9,17 @@ Page({
   },
   onTap: function () {
     // wx.navigateTo({
-    //   url: '../post/post'
+    //   url: "../post/post"
     // });
-    wx.redirectTo({
-      url: '../post/post'
-    })
+    wx.switchTab({
+      url: "../post/post"
+    });
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+
   }
 })
