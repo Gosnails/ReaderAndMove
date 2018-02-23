@@ -27,7 +27,18 @@ const converToStarsArray = stars => {
   return array
 }
 
+const http = (url, callBack) => {
+  wx.request({
+    url: url,
+    method: 'GET',
+    success: function (res) {
+      callBack(res.data);
+    }
+  })
+}
+
 module.exports = {
   formatTime: formatTime,
-  converToStarsArray: converToStarsArray
+  converToStarsArray: converToStarsArray,
+  http: http
 }

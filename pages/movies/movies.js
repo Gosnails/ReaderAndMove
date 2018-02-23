@@ -56,6 +56,12 @@ Page({
     };
     this.setData(readyData)
   },
+  onMoreTap: function(event) {
+    var category = event.currentTarget.dataset.category;
+    wx.navigateTo({
+      url: "more-movies/more-movies?category=" + category
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
