@@ -1,3 +1,4 @@
+var utils = require('../../utils/util.js');
 var app = getApp();
 Page({
 
@@ -18,20 +19,20 @@ Page({
     var comingSoonUrl = app.globalData.doubanBase + '/v2/movie/coming_soon' + '?start=0&count=3';
     var top250Url = app.globalData.doubanBase + '/v2/movie/top250' + '?start=0&count=3';
 
-    this.getMovieListData(inTheatersUrl, "inTheaters")
-    this.getMovieListData(comingSoonUrl, "comingSoon")
-    this.getMovieListData(top250Url, "top250")
+    this.getMovieListData(inTheatersUrl, "inTheaters", "正在热映")
+    this.getMovieListData(comingSoonUrl, "comingSoon", "即将上映")
+    this.getMovieListData(top250Url, "top250", "豆瓣Top250")
   },
-  getMovieListData: function (url, settedkey) {
+  getMovieListData: function (url, settedkey, catetoryTitle) {
     var _this = this;
     wx.request({
       url: url,
       success: function (res) {
-        _this.processDoubanData(res.data, settedkey)
+        _this.processDoubanData(res.data, settedkey, catetoryTitle)
       }
     })
   },
-  processDoubanData: function (moviesDouban, settedkey) {
+  processDoubanData: function (moviesDouban, settedkey, catetoryTitle) {
     var movies = [];
     for (var idx in moviesDouban.subjects) {
       var subject = moviesDouban.subjects[idx];
@@ -40,6 +41,7 @@ Page({
         title = title.substring(0, 6) + "...";
       }
       var temp = {
+        stars: utils.converToStarsArray(subject.rating.stars),
         title: title,
         average: subject.rating.average,
         coverageUrl: subject.images.large,
@@ -49,6 +51,7 @@ Page({
     }
     var readyData = {};
     readyData[settedkey] = {
+      catetoryTitle: catetoryTitle,
       movies: movies
     };
     this.setData(readyData)
