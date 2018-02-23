@@ -39,15 +39,16 @@ Page({
       requestUrl: dataUrl
     })
   },
-  onReachBottom: function(event) {
-    var nextUrl = this.data.requestUrl + "?start=" +this.data.totalCount+ "&count = 20";
+  onReachBottom: function (event) {
+    var nextUrl = this.data.requestUrl + "?start=" + this.data.totalCount + "&count = 20";
     utils.http(nextUrl, this.processDoubanData);
     wx.showNavigationBarLoading()
   },
-  onPullDownRefresh:function(event) {
+  onPullDownRefresh: function (event) {
     var refreshUrl = this.data.requestUrl + "?start=0&count = 20";
     this.data.movies = {};
     this.data.isEmpty = true;
+    this.data.totalCount = 0;
     utils.http(refreshUrl, this.processDoubanData);
     wx.showNavigationBarLoading()
   },
@@ -73,7 +74,7 @@ Page({
     var totalMovies = {};
     if (!this.data.isEmpty) {
       totalMovies = this.data.movies.concat(movies);
-    }else {
+    } else {
       totalMovies = movies;
       this.data.isEmpty = false;
     }
@@ -83,6 +84,12 @@ Page({
     this.data.totalCount += 20;
     wx.hideNavigationBarLoading();
     wx.stopPullDownRefresh();
+  },
+  onMoveTap: function (event) {
+    var movieId = event.currentTarget.dataset.movieid;
+    wx.navigateTo({
+      url: "../movie-detail/movie-detail?id=" + movieId
+    })
   },
   onReady: function () {
     wx.setNavigationBarTitle({
